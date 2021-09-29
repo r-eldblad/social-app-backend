@@ -7,9 +7,11 @@ router.post('/register', async (req, res) => {
   const emailExist = await User.findOne({ email: req.body.email });
   if (emailExist) return res.status(400).send('Email already exist');
 
-  // hash password
+  // hashes password
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  // Creates a new user and saves it inside of the database
   const user = new User({
     name: req.body.name,
     email: req.body.email,
@@ -25,15 +27,12 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send('Email does not exist.');
-  // Check if password is correct
   const validPass = await bcrypt.compare(req.body.password, user.password);
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 
+  if (!user) return res.status(400).send('Email does not exist.');
   if (!validPass) return res.status(400).send('Invalid password.');
 
-  // CReate and assign a token
-
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   res.header('auth-token', token).send(token);
 });
 
