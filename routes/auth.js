@@ -27,11 +27,10 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  const validPass = await bcrypt.compare(req.body.password, user.password);
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-
   if (!user) return res.status(400).send('Email does not exist.');
+  const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send('Invalid password.');
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 
   res.header('auth-token', token).send(token);
 });
