@@ -5,6 +5,7 @@ const cors = require('cors');
 
 // Import routes
 const authRoute = require('./routes/auth');
+const profileRoute = require('./routes/profiles');
 
 const corsOptions = {
   origin: '*',
@@ -27,6 +28,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 // Route middleware
 app.use('/api/user', authRoute);
+app.use('/api/user/profile', profileRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
