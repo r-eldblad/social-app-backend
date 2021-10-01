@@ -5,8 +5,9 @@ const cors = require('cors');
 
 // Import routes
 const authRoute = require('./routes/auth');
-const profileRoute = require('./routes/profiles');
+const usersRoute = require('./routes/users');
 
+// CORS options
 const corsOptions = {
   origin: '*',
   credentials: true,
@@ -14,7 +15,9 @@ const corsOptions = {
   exposedHeaders: 'auth-token',
 };
 
+// dotenv loader
 dotenv.config();
+
 // Database connection
 const app = express();
 const port = process.env.PORT || 8000;
@@ -27,8 +30,8 @@ mongoose.connect(process.env.DB_CONNECT, () => {
 app.use(cors(corsOptions));
 app.use(express.json());
 // Route middleware
-app.use('/api/user', authRoute);
-app.use('/api/user/profile', profileRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/users', usersRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
