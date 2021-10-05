@@ -6,6 +6,7 @@ const cors = require('cors');
 // Import routes
 const authRoute = require('./routes/auth');
 const usersRoute = require('./routes/users');
+const postsRoute = require('./routes/posts');
 
 // CORS options
 const corsOptions = {
@@ -32,6 +33,7 @@ app.use(express.json());
 // Route middleware
 app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
+app.use('/api/posts', postsRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

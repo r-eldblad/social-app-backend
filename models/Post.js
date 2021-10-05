@@ -17,4 +17,4 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-module.exports = moongoose.model('Post', postSchema);
+module.exports = mongoose.model('Post', postSchema);
