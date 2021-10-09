@@ -1,4 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
+const postSchema = new mongoose.Schema(
+  {
+    message: {
+      type: String,
+      required: true,
+      max: 1024,
+    },
+    sentFrom: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const userSchema = new mongoose.Schema(
   {
@@ -20,9 +37,9 @@ const userSchema = new mongoose.Schema(
       max: 1024,
       min: 6,
     },
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    posts: [postSchema],
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

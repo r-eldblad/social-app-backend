@@ -1,13 +1,14 @@
-const router = require('express').Router();
-const verifyToken = require('../middlewares/verifyToken');
+const router = require("express").Router();
+const verifyToken = require("../middlewares/verifyToken");
 
 // Model imports
-const User = require('../models/User');
-const Post = require('../models/Post');
+const User = require("../models/User");
+const Post = require("../models/Post");
 
-router.post('/create', async (req, res) => {
+router.post("/create", async (req, res) => {
   const post = new Post({
     message: req.body.message,
+    sentFrom: req.body._id,
   });
 
   try {
