@@ -1,22 +1,36 @@
 const router = require("express").Router();
+const { verify } = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const verifyToken = require("../middlewares/verifyToken");
 
 // Model imports
-const User = require("../models/User");
 const Post = require("../models/Post");
+const User = require("../models/User");
 
-router.post("/create", async (req, res) => {
-  const post = new Post({
-    message: req.body.message,
-    sentFrom: req.body._id,
+router.get("/:id", async (req, res) => {
+  const user = await User.findById(req.params.id);
+  const posts = await Post.find({
+    _id: { $in: user.posts },
   });
 
-  try {
-    const savedPost = await post.save();
-    res.send(savedPost);
-  } catch (err) {
-    res.status(400).send(err);
-  }
+  res.send(posts);
+});
+
+router.post("/create", async (req, res) => {
+  const post = await new Post({
+    _id: mongoose.Types.ObjectId(),
+    senderId: req.body.senderId,
+    user: req.body.userId,
+    message: req.body.message,
+  });
+
+  await User.findOneAndUpdate(
+    { _id: post.user },
+    { $push: { posts: post._id } }
+  );
+
+  await post.save();
+  res.send("Comment was added successfully");
 });
 
 module.exports = router;

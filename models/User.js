@@ -1,22 +1,5 @@
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema(
-  {
-    message: {
-      type: String,
-      required: true,
-      max: 1024,
-    },
-    sentFrom: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -37,7 +20,12 @@ const userSchema = new mongoose.Schema(
       max: 1024,
       min: 6,
     },
-    posts: [postSchema],
+    posts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
   },
   { timestamps: true }
 );
