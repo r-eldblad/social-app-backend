@@ -14,6 +14,7 @@ router.get("/list", verifyToken, async (req, res) => {
   res.send(users);
 });
 
+// This route returns a user with a specific id
 router.get("/profile/:id", verifyToken, async (req, res) => {
   const user = await User.findById(req.params.id);
   res.json(user);
