@@ -1,9 +1,14 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema(
   {
     _id: { type: mongoose.Schema.Types.ObjectId },
     senderId: { type: mongoose.Schema.Types.ObjectId },
+    senderName: {
+      type: String,
+      required: true,
+      max: 1024,
+    },
     message: {
       type: String,
       required: true,
@@ -11,7 +16,7 @@ const postSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
   },
@@ -20,4 +25,4 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model('Post', postSchema);
